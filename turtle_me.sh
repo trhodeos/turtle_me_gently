@@ -1,7 +1,9 @@
-git_raw_url="https://raw.github.com/tylerrhodes/turtle_me_gently/master"
-image_path="/wallpaper.jpg"
+git_raw_url="https://raw.github.com/tylerrhodes/turtle_me_gently/master/"
+image_path="wallpaper.jpg"
 download_image() {
-    `wget $git_raw_url$image_path`
+    if [[ ! -f $image_path ]]; then
+        `wget $git_raw_url$image_path`
+    fi
 }
 
 system=`uname -o`
@@ -10,6 +12,7 @@ pwd=`pwd`
 echo "System is $system"
 if [[ $system -eq 'Darwin' ]]; then
     defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
-    download_image()
-    osascript -e 'tell application "System Events" to set picture of every desktop to POSIX file "$pwd$image_path"'
+    download_image
+#    $(osascript -e 'tell application "Finder" to set desktop picture to POSIX file "'$pwd$image_path'"')
+    $(osascript -e 'tell application "System Events" to set picture of every desktop to POSIX file "'$pwd$image_path'"')
 fi
