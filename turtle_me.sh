@@ -1,8 +1,13 @@
 git_raw_url="https://raw.github.com/tylerrhodes/turtle_me_gently/master/"
 image_path="wallpaper.jpg"
 download_image() {
-    if [[ ! -f $image_path ]]; then
-        `wget $git_raw_url$image_path`
+  if [[ ! -f $image_path ]]; then
+      if hash curl 2>/dev/null; then
+          echo 'curl'
+          curl -O -s $git_raw_url$image_path
+      else
+          wget -q $git_raw_url$image_path
+      fi
     fi
 }
 
